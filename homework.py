@@ -89,6 +89,7 @@ class CashCalculator(Calculator):
         total_amount = self.get_today_stats()
         if currency in currency_name:
             if total_amount < self.limit:
+# Понимаю, что код получился не слишком читаемым. К сожалению, не знаю как сделать компактнее и практичнее.
                 return ('На сегодня осталось {:.2f}'.format(self.currency_change((self.limit - total_amount), currency, self.EURO_RATE, self.USD_RATE))
                  + " " + currency_name[currency])
             elif total_amount == self.limit:    
