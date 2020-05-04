@@ -52,7 +52,7 @@ class CashCalculator(Calculator):
         total_amount = self.get_today_stats()
         if currency in currency_name:
             currensy_presentation, exchange_rate = currency_name[currency]
-            balance = abs((self.limit - total_amount)/exchange_rate)
+            balance = abs ((self.limit - total_amount) / exchange_rate)
             if total_amount < self.limit:
                 return f'На сегодня осталось {balance:.2f} {currensy_presentation}'
             elif total_amount == self.limit:    
