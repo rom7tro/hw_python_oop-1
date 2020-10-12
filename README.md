@@ -1,4 +1,4 @@
-# hw_python_oop
+# hw_python_oop (Money and calories calculator)
 Калькулятор денег и калорий - инструменты для контроля расходов и доходов
 
 Условия задачи
