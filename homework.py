@@ -1,63 +1,44 @@
 import datetime as dt
+from typing import List, Any
 
-
-class Calculator:
-    def __init__(self, limit):
-        self.limit = limit
-        self.records = []
-
-    def get_week_stats(self):
-        now = dt.datetime.now().date()
-        week_ago = now - dt.timedelta(days=7)
-        amount = [record.amount for record in self.records if week_ago <= record.date]
-        return sum(amount)
-
-    def add_record(self, record):
-        self.records.append(record)
-
-    def get_today_stats(self):
-        now = dt.datetime.now().date()
-        amount = [record.amount for record in self.records if now == record.date]
-        return sum(amount)
-    
+records = []
 
 class Record:
-    def __init__(self, amount, comment, date=dt.datetime.now().date()):
+    def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
-        date_format = '%d.%m.%Y'
-        if isinstance(date, str):
-            date = dt.datetime.strptime(date, date_format).date()
         self.date = date
+        now = dt.datetime.now()
+        if self.date == None:
+            self.date = now.date()
+        else:
+            self.date = dt.datetime.strptime(date, "%d.%m.%Y").date()
+    def __str__(self):
+        return " " + str(self.amount) + " " + self.comment + ' ' + str(self.date)
+
+class Calculator():
+    limit = 0
+    records = []
+    def __init__(self, limit=0):
+        self.limit = limit
+
+    def add_record(self):
+        records.append(self)
+    def __str__(self):
+        return ' ' + str(self.limit) + str(records[0])
 
 
-class CaloriesCalculator(Calculator):
-    def get_calories_remained(self):
-        total_amount = self.get_today_stats()
-        balance = self.limit - total_amount
-        if total_amount < self.limit:
-            return f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {balance:.0f} кКал'
-        elif total_amount >= self.limit:
-            return 'Хватит есть!'
-
-
-class CashCalculator(Calculator):
-    
-    USD_RATE = 75.88
-    EURO_RATE = 88.75
-
-    def get_today_cash_remained(self, currency):
-        currency_name = {"rub": ("руб", 1),
-                         "usd": ("USD", self.USD_RATE),
-                         "eur": ("Euro", self.EURO_RATE)}
-
-        total_amount = self.get_today_stats()
-        if currency in currency_name:
-            currency_presentation, exchange_rate = currency_name[currency]
-            balance = abs((self.limit - total_amount) / exchange_rate)
-            if total_amount < self.limit:
-                return f'На сегодня осталось {balance:.2f} {currency_presentation}'
-            elif total_amount == self.limit:    
-                return 'Денег нет, держись'
-            else:      
-                return f'Денег нет, держись: твой долг - {balance:.2f} {currency_presentation}'
+r1 = Record(amount=145, comment="Безудержный шопинг", date="08.03.2019")
+r2 = Record(amount=1568, comment="Наполнение потребительской корзины", date="09.03.2019")
+r3 = Record(amount=691, comment="Катание на такси", date="08.03.2019")
+r4 = Record(amount=1186, comment="Кусок тортика. И ещё один.", date="24.02.2019")
+r5 = Record(amount=84, comment="Йогурт.", date="23.02.2019")
+r6 = Record(amount=1140, comment="Баночка чипсов.", date="24.02.2019")
+records = [r1, r2, r3, r4, r5, r6]
+Calculator.add_record(Record(100, "Кулич"))
+Calculator.add_record(Record(1000, "Куличчч"))
+print(r2)
+print(records[0].date)
+print(str(records[0]))
+print([print(i.amount, i.date) for i in records])
+print(type(records[3].date))
